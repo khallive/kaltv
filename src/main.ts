@@ -1,6 +1,6 @@
-1 // @ts-nocheck
-import './style.css'
-import { loadLiveChannels } from './lib/supabase'
+// @ts-nocheck
+import "./style.css"
+import { loadLiveChannels } from "./lib/supabase"
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
