@@ -1,6 +1,4 @@
 1 // @ts-nocheck
-2 import "./style.css"
-3 import { loadLiveChannels } from "./lib/supabase"
 import './style.css'
 import { loadLiveChannels } from './lib/supabase'
 
