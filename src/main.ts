@@ -1,8 +1,15 @@
 import './style.css'
+import { loadLiveChannels } from './lib/supabase'
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {})
+  })
+}
 
 type Channel = { name: string; title: string; game: string; viewers: string; image: string; avatar: string; tag: string }
 
-const channels: Channel[] = [
+let channels: Channel[] = [
   { name: 'pixelpilot', title: 'late night ranked until we hit the next level ✨', game: 'VALORANT', viewers: '8.4K', image: 'photo-1542751371-adc38448a05e', avatar: 'photo-1535713875002-d1d0cf377fde', tag: 'FPS' },
   { name: 'mira.wav', title: 'making a cozy little world, come hang 🌿', game: 'Minecraft', viewers: '2.1K', image: 'photo-1603481546238-487240415921', avatar: 'photo-1534528741775-53994a69daeb', tag: 'Cozy' },
   { name: 'thebside', title: 'new season, new chaos | first playthrough', game: 'Apex Legends', viewers: '14.7K', image: 'photo-1547394765-185e1e68f34e', avatar: 'photo-1500648767791-00dcc994a43e', tag: 'FPS' },
@@ -19,6 +26,30 @@ const categories = [
   { name: 'Apex Legends', viewers: '28K viewers', image: 'photo-1547394765-185e1e68f34e', color: '#e77b4c' },
   { name: 'Art', viewers: '12K viewers', image: 'photo-1513364776144-60967b0f800f', color: '#4b9d9b' },
 ]
+
+const followedStorageKey = 'kaltv_followed_channels'
+const followerCountStorageKey = 'kaltv_follower_counts'
+const defaultFollowerCounts: Record<string, number> = { pixelpilot: 12400, 'mira.wav': 8300, thebside: 28700, ninaonair: 5100, cookwithkai: 6900, orbitals: 4100 }
+const readStorage = <T>(key: string, fallback: T): T => {
+  try { return JSON.parse(localStorage.getItem(key) ?? '') as T } catch { return fallback }
+}
+let followedChannels = new Set<string>(readStorage<string[]>(followedStorageKey, []))
+let followerCounts = { ...defaultFollowerCounts, ...readStorage<Record<string, number>>(followerCountStorageKey, {}) }
+function getFollowerCount(name: string) { return followerCounts[name] ?? 0 }
+function formatCount(count: number) { return count >= 1000 ? `${(count / 1000).toFixed(1).replace('.0', '')}K` : count.toLocaleString() }
+function saveFollowState() {
+  localStorage.setItem(followedStorageKey, JSON.stringify([...followedChannels]))
+  localStorage.setItem(followerCountStorageKey, JSON.stringify(followerCounts))
+}
+function updateFollowButton(button: HTMLButtonElement, name: string, following: boolean) {
+  button.classList.toggle('is-following', following)
+  button.innerHTML = following ? '♥' : icon('heart')
+  button.setAttribute('aria-label', following ? `Unfollow ${name}` : `Follow ${name}`)
+  button.setAttribute('aria-pressed', String(following))
+  button.setAttribute('title', following ? 'Following' : 'Follow channel')
+  const count = document.querySelector<HTMLElement>(`[data-follower-count="${name}"]`)
+  if (count) count.textContent = `${formatCount(getFollowerCount(name))} followers`
+}
 
 const photo = (id: string, width = 640) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`
 const icon = (name: string) => {
@@ -40,18 +71,21 @@ const channelCard = (channel: Channel) => `
       <span class="play-overlay">▶</span>
     </button>
     <div class="stream-info"><img class="avatar" src="${photo(channel.avatar, 100)}" alt="${channel.name}">
-      <div class="stream-copy"><h3>${channel.title}</h3><p>${channel.name}</p><p class="game-name">${channel.game}</p><div class="tags"><span>${channel.tag}</span><span>English</span></div><button class="creator-message" data-creator-message="${channel.name}" type="button">Message creator</button></div>
-      <button class="follow" aria-label="Follow ${channel.name}" title="Follow channel">${icon('heart')}</button>
+      <div class="stream-copy"><h3>${channel.title}</h3><p>${channel.name}</p><p class="game-name">${channel.game}</p><p class="follower-count" data-follower-count="${channel.name}">${formatCount(getFollowerCount(channel.name))} followers</p><div class="tags"><span>${channel.tag}</span><span>English</span></div><button class="creator-message" data-creator-message="${channel.name}" type="button">Message creator</button></div>
+      <button class="follow${followedChannels.has(channel.name) ? ' is-following' : ''}" aria-label="${followedChannels.has(channel.name) ? `Unfollow ${channel.name}` : `Follow ${channel.name}`}" aria-pressed="${followedChannels.has(channel.name)}" title="${followedChannels.has(channel.name) ? 'Following' : 'Follow channel'}">${followedChannels.has(channel.name) ? '♥' : icon('heart')}</button>
     </div>
   </article>`
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+<a class="skip-link" href="#discover">Skip to main content</a>
 <header class="topbar">
   <a class="brand" href="#home" aria-label="KalTV home"><span class="brand-mark">K</span><span>kal<span>tv</span></span></a>
   <nav class="main-nav"><a class="active" href="#discover">Discover</a><a href="#categories">Categories</a><a href="#reels">Reels</a><a href="#chat">Chat</a><a href="#gifts">Gifts</a><a href="#music">Music</a></nav>
   <label class="search-box">${icon('search')}<input id="search" placeholder="Search streams, games, creators…" autocomplete="off"><kbd>⌘ K</kbd></label>
-  <div class="top-actions"><button class="icon-button mobile-search" aria-label="Search">${icon('search')}</button><button class="icon-button" aria-label="Notifications">${icon('bell')}<i class="notification-dot"></i></button><button class="login" id="login-button">Log in</button><button class="stream-button" id="go-live-button">Go live <span>●</span></button><button class="signup" id="signup-button">Join KalTV <span>↗</span></button><button class="mobile-menu" aria-label="Menu">${icon('menu')}</button></div>
+  <div class="top-actions"><button class="icon-button mobile-search" aria-label="Search">${icon('search')}</button><button class="icon-button" aria-label="Notifications">${icon('bell')}<i class="notification-dot"></i></button><button class="login" id="login-button">Log in</button><button class="stream-button" id="go-live-button">Go live <span>●</span></button><button class="signup" id="signup-button">Join KalTV <span>↗</span></button><button class="mobile-menu" aria-label="Open navigation" aria-expanded="false">${icon('menu')}</button></div>
 </header>
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop" hidden></div>
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><div class="mobile-nav-head"><b>Explore KalTV</b><button class="icon-button" id="mobile-nav-close" aria-label="Close navigation">×</button></div><a href="#discover">Discover</a><a href="#categories">Categories</a><a href="#reels">Reels</a><a href="#chat">Chat</a><a href="#gifts">Gifts</a><a href="#music">Music</a><div class="mobile-nav-divider"></div><a href="#live">Live now <span class="live-dot"></span></a></nav>
 <div class="app-shell">
   <aside class="sidebar"><div class="side-label">YOUR SPACE <button class="collapse" aria-label="Collapse sidebar">‹</button></div>
     <a class="side-link selected" href="#discover">${icon('home')}<span>Discover</span></a><a class="side-link" href="#live">${icon('heart')}<span>Following</span></a>
@@ -85,9 +119,17 @@ function renderStreams() {
     openCreatorChat(button.dataset.creatorMessage ?? 'creator')
   }))
   grid.querySelectorAll<HTMLButtonElement>('.follow').forEach(button => button.addEventListener('click', () => {
-    const followed = button.classList.toggle('is-following')
+    const name = button.closest<HTMLElement>('.stream-card')?.querySelector<HTMLElement>('[data-follower-count]')?.dataset.followerCount
+    if (!name) return
+    const followed = !followedChannels.has(name)
+    followed ? followedChannels.add(name) : followedChannels.delete(name)
+    followerCounts[name] = Math.max(0, getFollowerCount(name) + (followed ? 1 : -1))
+    saveFollowState()
     button.innerHTML = followed ? '♥' : icon('heart')
+    button.setAttribute('aria-label', followed ? `Unfollow ${name}` : `Follow ${name}`)
+    button.setAttribute('aria-pressed', String(followed))
     button.setAttribute('title', followed ? 'Following' : 'Follow channel')
+    document.querySelector<HTMLElement>(`[data-follower-count="${name}"]`)!.textContent = `${formatCount(getFollowerCount(name))} followers`
     showToast(followed ? 'You’re following this creator ✨' : 'Unfollowed creator')
   }))
   grid.querySelectorAll<HTMLButtonElement>('.thumbnail').forEach(button => button.addEventListener('click', () => showToast('Stream preview is coming soon 👀')))
@@ -100,10 +142,36 @@ function renderStreams() {
 let toastTimer: number
 function showToast(message: string) { const toast = document.querySelector<HTMLElement>('.toast')!; toast.textContent = message; toast.classList.add('visible'); window.clearTimeout(toastTimer); toastTimer = window.setTimeout(() => toast.classList.remove('visible'), 2400) }
 search.addEventListener('input', renderStreams)
+void loadLiveChannels().then(remoteChannels => {
+  if (remoteChannels.length > 0) {
+    channels = remoteChannels
+    renderStreams()
+  }
+})
 document.querySelectorAll<HTMLButtonElement>('.filter').forEach(button => button.addEventListener('click', () => { document.querySelector('.filter.active')?.classList.remove('active'); button.classList.add('active'); activeFilter = button.dataset.filter ?? 'All'; renderStreams() }))
 document.querySelectorAll<HTMLButtonElement>('.category-card').forEach(button => button.addEventListener('click', () => { search.value = button.dataset.category ?? ''; activeFilter = 'All'; document.querySelector('.filter.active')?.classList.remove('active'); document.querySelector('.filter[data-filter="All"]')?.classList.add('active'); renderStreams(); document.querySelector('#live')?.scrollIntoView({ behavior: 'smooth' }) }))
 document.querySelector<HTMLButtonElement>('#load-more')!.addEventListener('click', event => { expanded = !expanded; (event.currentTarget as HTMLButtonElement).innerHTML = expanded ? 'Show fewer streams <span>↑</span>' : 'Show me more streams <span>↓</span>'; renderStreams() })
 document.querySelector<HTMLButtonElement>('.mobile-search')!.addEventListener('click', () => { search.focus(); search.scrollIntoView({ behavior: 'smooth', block: 'center' }) })
+const mobileMenu = document.querySelector<HTMLButtonElement>('.mobile-menu')!
+const mobileNav = document.querySelector<HTMLElement>('#mobile-nav')!
+const mobileNavBackdrop = document.querySelector<HTMLElement>('#mobile-nav-backdrop')!
+const mobileNavClose = document.querySelector<HTMLButtonElement>('#mobile-nav-close')!
+function setMobileNav(open: boolean) {
+  mobileNav.hidden = !open
+  mobileNavBackdrop.hidden = !open
+  mobileMenu.setAttribute('aria-expanded', String(open))
+  mobileMenu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation')
+  document.body.classList.toggle('nav-open', open)
+  if (open) mobileNavClose.focus()
+}
+mobileMenu.addEventListener('click', () => setMobileNav(!mobileNav.hidden))
+mobileNavClose.addEventListener('click', () => setMobileNav(false))
+mobileNavBackdrop.addEventListener('click', () => setMobileNav(false))
+mobileNav.querySelectorAll<HTMLAnchorElement>('a').forEach(link => link.addEventListener('click', () => setMobileNav(false)))
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileNav.hidden) setMobileNav(false) })
+document.querySelectorAll<HTMLAnchorElement>('.main-nav a').forEach(link => link.addEventListener('click', () => { document.querySelector('.main-nav a.active')?.classList.remove('active'); link.classList.add('active') }))
+const sectionNav = new IntersectionObserver(entries => entries.forEach(entry => { if (!entry.isIntersecting) return; const link = document.querySelector<HTMLAnchorElement>(`.main-nav a[href="#${entry.target.id}"]`); if (!link) return; document.querySelector('.main-nav a.active')?.classList.remove('active'); link.classList.add('active') }), { rootMargin: '-35% 0px -55% 0px' })
+document.querySelectorAll<HTMLElement>('#discover, #categories, #reels, #chat, #gifts, #music').forEach(section => sectionNav.observe(section))
 document.querySelector<HTMLButtonElement>('.collapse')!.addEventListener('click', () => document.querySelector('.sidebar')!.classList.toggle('compact'))
 document.body.insertAdjacentHTML('beforeend', `<div class="live-backdrop" id="live-backdrop" hidden><section class="live-modal" role="dialog" aria-modal="true" aria-labelledby="live-title"><button class="auth-close" type="button" id="live-close" aria-label="Close">×</button><div class="eyebrow"><span class="live-dot"></span> CREATOR STUDIO</div><h2 id="live-title">Go live</h2><p class="live-copy">Camera and microphone are optional for this demo. Supabase can connect the room later.</p><div class="live-setup"><label>Stream title<input id="live-title-input" value="Welcome to my first stream"></label><label>Category<select id="live-category"><option>Just Chatting</option><option>Gaming</option><option>Music</option><option>Art</option></select></label></div><label class="audio-only-toggle"><input id="audio-only" type="checkbox"> Audio-only live</label><video id="live-preview" autoplay muted playsinline></video><div class="live-status" id="live-status">Ready to start your live room.</div><div class="live-actions"><button class="outline-button" id="check-media" type="button">Check camera & mic</button><button class="signup" id="start-live" type="button">Start live <span>●</span></button><button class="chat-button" id="stop-live" type="button" hidden>Stop live</button></div><div class="live-room" id="live-room" hidden><div class="live-room-head"><div><span class="live-pill"><i></i> LIVE</span><strong id="live-room-title">Welcome to my first stream</strong><small id="live-room-category">Just Chatting · 1 viewer</small></div><button class="like-button" id="live-like" type="button">♡ <span>0</span></button></div><div class="live-chat" id="live-chat"><div class="live-chat-message"><b>KalTV</b><span>Welcome to the stream chat ✨</span></div></div><form class="live-chat-form" id="live-chat-form"><input id="live-chat-input" maxlength="160" placeholder="Send a message…" autocomplete="off"><button type="submit">Send</button></form><div class="live-gifts"><span>Send a gift</span><button type="button" data-live-gift="✨ Sparkle">✨</button><button type="button" data-live-gift="💖 Heart">💖</button><button type="button" data-live-gift="🚀 Rocket">🚀</button></div></div></section></div>`)
 document.body.insertAdjacentHTML('beforeend', `<div class="channel-viewer" id="channel-viewer" hidden><section class="channel-viewer-card" role="dialog" aria-modal="true"><button class="auth-close" id="channel-viewer-close" type="button" aria-label="Close stream">×</button><div class="channel-viewer-screen"><img id="channel-viewer-image" alt="Live channel preview"><span class="live-pill"><i></i> LIVE</span><span id="channel-viewer-viewers" class="viewer-count"></span></div><div class="channel-viewer-body"><div><div class="eyebrow">LIVE CHANNEL</div><h2 id="channel-viewer-title"></h2><p id="channel-viewer-meta"></p></div><div class="channel-viewer-chat" id="channel-viewer-chat"><div><b>KalTV</b><span>Welcome to the stream ✨</span></div></div><form class="channel-viewer-form" id="channel-viewer-form"><input id="channel-viewer-input" maxlength="160" placeholder="Chat with the channel…" autocomplete="off"><button type="submit">Send</button></form></div></section></div>`)
