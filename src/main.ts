@@ -94,7 +94,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="followed-list"><button class="followed"><img src="${photo('photo-1535713875002-d1d0cf377fde', 80)}"><span><b>pixelpilot</b><small>VALORANT</small></span><em>8.4K</em></button><button class="followed"><img src="${photo('photo-1534528741775-53994a69daeb', 80)}"><span><b>mira.wav</b><small>Minecraft</small></span><em>2.1K</em></button><button class="followed"><img src="${photo('photo-1500648767791-00dcc994a43e', 80)}"><span><b>thebside</b><small>Apex Legends</small></span><em>14.7K</em></button><button class="followed"><img src="${photo('photo-1524504388940-b1c1722653e1', 80)}"><span><b>ninaonair</b><small>Music</small></span><em>945</em></button></div>
     <div class="sidebar-bottom"><button class="sidebar-go-live go-live-trigger" type="button">🎥 Go Live Now</button><div class="community-card"><div class="sparkle">✳</div><b>Find your people.</b><p>Follow creators and never miss a moment.</p><button class="signup">Explore creators <span>↗</span></button></div><span>© 2025 KalTV <a href="#about">About</a> <a href="#guidelines">Guidelines</a></span></div>
   </aside>
-  <main id="home" class="content"><section class="welcome" id="discover"><div><div class="eyebrow"><span class="live-dot"></span> THE INTERNET, LIVE</div><h1>Find your <span>next</span><br>favorite stream.</h1><p>Big moments, cozy corners, and everything in between.<br>There’s a place for you here.</p><div class="welcome-actions"><a class="primary-cta" href="#live">Explore live streams <span>↘</span></a><a class="text-cta" href="#categories">Browse categories</a></div></div><div class="hero-art"><div class="hero-glow"></div><img class="hero-photo" src="${photo('photo-1535223289827-42f1e9919769', 850)}" alt="Colorful live creator setup"><div class="hero-live"><span class="live-pill"><i></i> LIVE NOW</span><b>studioafterdark</b><small>Just Chatting · 12.8K watching</small></div><div class="floating-note">✦ &nbsp; good vibes only</div></div><div class="hero-index">01 <span>—</span> 06</div></section><button class="go-live-cta go-live-trigger" id="main-go-live-button" type="button"><span>🎥 Go Live Now</span><small>Start streaming on KalTV</small></button>
+  <main id="home" class="content"><section class="welcome" id="discover"><div><div class="eyebrow"><span class="live-dot"></span> THE INTERNET, LIVE</div><h1>Find your <span>next</span><br>favorite stream.</h1><p>Big moments, cozy corners, and everything in between.<br>There’s a place for you here.</p><div class="welcome-actions"><a class="primary-cta" href="#live">Explore live streams <span>↘</span></a><a class="text-cta" href="#categories">Browse categories</a></div></div><div class="hero-art"><div class="hero-glow"></div><img class="hero-photo" src="${photo('photo-1535223289827-42f1e9919769', 850)}" alt="Colorful live creator setup"><div class="hero-live"><span class="live-pill"><i></i> LIVE NOW</span><b>studioafterdark</b><small>Just Chatting · 12.8K watching</small></div><div class="floating-note">✦ &nbsp; good vibes only</div></div><div class="hero-index">01 <span>—</span> 06</div></section><button class="go-live-cta go-live-trigger" id="big-go-live" type="button"><span>🎥 Go Live Now</span><small>Start streaming on KalTV</small></button>
     <section class="category-section" id="categories"><div class="section-head"><div><div class="eyebrow">A LITTLE BIT OF EVERYTHING</div><h2>Explore categories <span class="heading-arrow">↗</span></h2></div><a href="#all-categories">All categories <span>→</span></a></div><div class="category-row">${categories.map(c => `<button class="category-card" data-category="${c.name}"><div class="category-image" style="--tint:${c.color}"><img src="${photo(c.image, 450)}" alt="${c.name}" loading="lazy"><span>↗</span></div><b>${c.name}</b><small>${c.viewers}</small></button>`).join('')}</div></section>
     <section class="live-section" id="live"><div class="section-head live-head"><div><div class="eyebrow"><span class="live-dot"></span> HAPPENING RIGHT NOW</div><h2>Live for you <span class="live-pill"><i></i> LIVE</span></h2></div><div class="filter-tabs"><button class="filter active" data-filter="All">For you</button><button class="filter" data-filter="FPS">FPS</button><button class="filter" data-filter="Cozy">Cozy</button><button class="filter" data-filter="IRL">IRL</button></div></div><div class="stream-grid" id="stream-grid">${channels.slice(0, 4).map(channelCard).join('')}</div><div class="empty-state" hidden>No streams found. Try another search.</div><button class="load-more" id="load-more">Show me more streams <span>↓</span></button><div class="gift-panel"><div class="gift-panel-title"><div><div class="eyebrow">MAKE THEIR MOMENT</div><h3>Send a gift while they’re live <span>✦</span></h3></div><span class="coin-balance">◈ 1,240 coins</span></div><div class="gift-row"><button class="gift-card" data-gift="Tiny Star" data-price="10"><span>⭐</span><b>Tiny Star</b><small>10 coins</small></button><button class="gift-card" data-gift="Sparkle" data-price="25"><span>✨</span><b>Sparkle</b><small>25 coins</small></button><button class="gift-card" data-gift="Heart" data-price="50"><span>💖</span><b>Heart</b><small>50 coins</small></button><button class="gift-card" data-gift="Party Popper" data-price="75"><span>🎉</span><b>Party Popper</b><small>75 coins</small></button><button class="gift-card" data-gift="Crown" data-price="150"><span>👑</span><b>Crown</b><small>150 coins</small></button><button class="gift-card" data-gift="Rocket" data-price="300"><span>🚀</span><b>Rocket</b><small>300 coins</small></button><button class="gift-card" data-gift="Fireworks" data-price="500"><span>🎆</span><b>Fireworks</b><small>500 coins</small></button><button class="gift-card" data-gift="Diamond" data-price="1000"><span>💎</span><b>Diamond</b><small>1,000 coins</small></button></div></div></section>
     <section class="feature-section" id="reels"><div class="section-head"><div><div class="eyebrow">QUICK MOMENTS</div><h2>KalTV Reels <span class="heading-arrow">↗</span></h2></div><button class="outline-button" id="create-reel">+ Create reel</button></div><div class="reel-row"><article class="reel-card reel-one"><div class="reel-overlay"><span class="live-pill">TRENDING</span><b>That clutch was unreal 😳</b><small>@pixelpilot · 42K views</small></div></article><article class="reel-card reel-two"><div class="reel-overlay"><span class="live-pill">NEW</span><b>Cozy build tour 🌿</b><small>@mira.wav · 18K views</small></div></article><article class="reel-card reel-three"><div class="reel-overlay"><span class="live-pill">FEATURED</span><b>Late night studio vibes</b><small>@ninaonair · 9.4K views</small></div></article></div></section>
@@ -106,7 +106,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 </div>
 <div class="toast" role="status"></div><div class="auth-backdrop" id="auth-backdrop" hidden><form class="auth-modal" id="auth-form"><button class="auth-close" type="button" id="auth-close" aria-label="Close">×</button><div class="eyebrow">WELCOME TO KALTV</div><h2 id="auth-title">Join the community</h2><p id="auth-copy">Create your free profile to follow creators and join the conversation.</p><label>Display name<input id="auth-name" required placeholder="Your creator name"></label><label>Email<input id="auth-email" required type="email" placeholder="you@example.com"></label><label>Password<input id="auth-password" required type="password" minlength="6" placeholder="At least 6 characters"></label><button class="signup auth-submit" type="submit" id="auth-submit">Create account <span>↗</span></button><button class="auth-switch" type="button" id="auth-switch">Already have an account? Log in</button></form></div>`
 
-const goLiveCta = document.querySelector<HTMLButtonElement>('#main-go-live-button')
+document.querySelector('#login-button')?.setAttribute('id', 'login-btn')
+document.querySelector('#go-live-button')?.setAttribute('id', 'go-live-header-btn')
+document.querySelector('#mobile-nav-backdrop')?.setAttribute('id', 'mobile-backdrop')
+const goLiveCta = document.querySelector<HTMLButtonElement>('#big-go-live')
 const musicSection = document.querySelector<HTMLElement>('#music')
 if (goLiveCta && musicSection) musicSection.append(goLiveCta)
 
@@ -159,7 +162,7 @@ document.querySelector<HTMLButtonElement>('#load-more')!.addEventListener('click
 document.querySelector<HTMLButtonElement>('.mobile-search')!.addEventListener('click', () => { search.focus(); search.scrollIntoView({ behavior: 'smooth', block: 'center' }) })
 const hamburgerBtn = document.getElementById('hamburger-btn') as HTMLButtonElement
 const mobileMenu = document.getElementById('mobile-menu') as HTMLElement
-const mobileNavBackdrop = document.querySelector<HTMLElement>('#mobile-nav-backdrop')!
+const mobileNavBackdrop = document.getElementById('mobile-backdrop') as HTMLElement
 const mobileNavClose = document.querySelector<HTMLButtonElement>('#mobile-nav-close')!
 const mobileGoLive = document.querySelector<HTMLButtonElement>('#mobile-go-live')!
 const mobileSettings = document.querySelector<HTMLButtonElement>('#mobile-settings')!
@@ -175,24 +178,9 @@ function setMobileNav(open: boolean) {
   document.body.classList.toggle('nav-open', open)
   if (open) mobileNavClose.focus()
 }
-mobileMenu.classList.add('hidden')
-if (hamburgerBtn && mobileMenu) {
-  hamburgerBtn.style.pointerEvents = 'auto'
-  hamburgerBtn.style.zIndex = '9999'
-  hamburgerBtn.style.cursor = 'pointer'
-  hamburgerBtn.addEventListener('click', (e) => {
-    e.stopPropagation()
-    console.log('HAMBURGER CLICKED - OPENING MENU')
-    const open = mobileMenu.classList.contains('hidden')
-    mobileMenu.classList.toggle('hidden', !open)
-    mobileMenu.classList.toggle('flex', open)
-    mobileMenu.style.display = open ? 'flex' : 'none'
-    setMobileNav(open)
-  })
-}
 mobileNavClose.addEventListener('click', () => setMobileNav(false))
 mobileNavBackdrop.addEventListener('click', () => setMobileNav(false))
-mobileGoLive.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#go-live-button')!.click() })
+mobileGoLive.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#go-live-header-btn')!.click() })
 mobileSettings.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#settings-button')?.click() })
 mobileMenu.querySelectorAll<HTMLAnchorElement>('a').forEach(link => link.addEventListener('click', () => setMobileNav(false)))
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileMenu.hidden) setMobileNav(false) })
@@ -239,7 +227,7 @@ const authForm = document.querySelector<HTMLFormElement>('#auth-form')!
 let authMode: 'signup' | 'login' = 'signup'
 function openAuth(mode: 'signup' | 'login') { authMode = mode; authBackdrop.hidden = false; document.querySelector('#auth-title')!.textContent = mode === 'signup' ? 'Join the community' : 'Welcome back'; document.querySelector('#auth-copy')!.textContent = mode === 'signup' ? 'Create your free profile to follow creators and join the conversation.' : 'Log in to pick up where you left off.'; document.querySelector<HTMLLabelElement>('#auth-name')!.hidden = mode === 'login'; document.querySelector<HTMLButtonElement>('#auth-submit')!.innerHTML = mode === 'signup' ? 'Create account <span>↗</span>' : 'Log in <span>↗</span>'; document.querySelector<HTMLButtonElement>('#auth-switch')!.textContent = mode === 'signup' ? 'Already have an account? Log in' : 'New to KalTV? Create an account'; document.querySelector<HTMLInputElement>('#auth-name')!.required = mode === 'signup' }
 document.querySelector<HTMLButtonElement>('#signup-button')!.addEventListener('click', () => openAuth('signup'))
-document.querySelector<HTMLButtonElement>('#login-button')!.addEventListener('click', () => openAuth('login'))
+document.querySelector<HTMLButtonElement>('#login-btn')!.addEventListener('click', () => openAuth('login'))
 document.querySelector<HTMLButtonElement>('#auth-close')!.addEventListener('click', () => { authBackdrop.hidden = true })
 document.querySelector<HTMLButtonElement>('#auth-switch')!.addEventListener('click', () => openAuth(authMode === 'signup' ? 'login' : 'signup'))
 authBackdrop.addEventListener('click', event => { if (event.target === authBackdrop) authBackdrop.hidden = true })
@@ -289,8 +277,8 @@ const liveLike = document.querySelector<HTMLButtonElement>('#live-like')!
 let liveLikes = 0
 function stopLivePreview() { liveStream?.getTracks().forEach(track => track.stop()); screenStream?.getTracks().forEach(track => track.stop()); liveStream = null; screenStream = null; livePreview.srcObject = null; shareScreen.textContent = 'Share desktop screen'; stopLive.hidden = true; checkMedia.disabled = false }
 function resetLiveRoom() { liveRoom.hidden = true; liveLikes = 0; liveLike.innerHTML = '♡ <span>0</span>'; liveChat.innerHTML = '<div class="live-chat-message"><b>KalTV</b><span>Welcome to the stream chat ✨</span></div>'; startLive.hidden = false; stopLive.hidden = true }
-document.querySelector<HTMLButtonElement>('#go-live-button')!.addEventListener('click', () => { liveBackdrop.hidden = false; liveModal.classList.remove('live-active'); resetLiveRoom(); liveStatus.textContent = 'Ready to check your camera and microphone.' })
-document.querySelectorAll<HTMLButtonElement>('.go-live-trigger').forEach(button => button.addEventListener('click', () => document.querySelector<HTMLButtonElement>('#go-live-button')!.click()))
+document.querySelector<HTMLButtonElement>('#go-live-header-btn')!.addEventListener('click', () => { liveBackdrop.hidden = false; liveModal.classList.remove('live-active'); resetLiveRoom(); liveStatus.textContent = 'Ready to check your camera and microphone.' })
+document.querySelectorAll<HTMLButtonElement>('.go-live-trigger').forEach(button => button.addEventListener('click', () => document.querySelector<HTMLButtonElement>('#go-live-header-btn')!.click()))
 document.querySelector<HTMLButtonElement>('#live-close')!.addEventListener('click', () => { liveBackdrop.hidden = true; stopLivePreview() })
 liveBackdrop.addEventListener('click', event => { if (event.target === liveBackdrop) { liveBackdrop.hidden = true; stopLivePreview() } })
 audioOnly.addEventListener('change', () => { livePreview.hidden = audioOnly.checked; checkMedia.textContent = audioOnly.checked ? 'Check microphone' : 'Check camera & mic' })
@@ -321,9 +309,9 @@ shareScreen.addEventListener('click', async () => {
     showToast('Desktop screen is ready to share ✨')
   } catch (error) { const reason = error instanceof DOMException && error.name === 'NotAllowedError' ? 'Screen permission was denied or cancelled.' : 'Desktop sharing could not start in this browser.'; liveStatus.textContent = reason; showToast(reason) }
 })
-authForm.addEventListener('submit', event => { event.preventDefault(); const name = document.querySelector<HTMLInputElement>('#auth-name')!.value || 'KalTV creator'; localStorage.setItem('kaltv_user', JSON.stringify({ name })); authBackdrop.hidden = true; document.querySelector<HTMLButtonElement>('#signup-button')!.textContent = name; document.querySelector<HTMLButtonElement>('#login-button')!.textContent = 'Profile'; showToast(authMode === 'signup' ? `Welcome to KalTV, ${name} ✨` : `Welcome back, ${name}`) })
+authForm.addEventListener('submit', event => { event.preventDefault(); const name = document.querySelector<HTMLInputElement>('#auth-name')!.value || 'KalTV creator'; localStorage.setItem('kaltv_user', JSON.stringify({ name })); authBackdrop.hidden = true; document.querySelector<HTMLButtonElement>('#signup-button')!.textContent = name; document.querySelector<HTMLButtonElement>('#login-btn')!.textContent = 'Profile'; showToast(authMode === 'signup' ? `Welcome to KalTV, ${name} ✨` : `Welcome back, ${name}`) })
 document.querySelectorAll<HTMLButtonElement>('.community-card button').forEach(button => button.addEventListener('click', () => openAuth('signup')))
-const savedUser = localStorage.getItem('kaltv_user'); if (savedUser) { try { const name = JSON.parse(savedUser).name; document.querySelector<HTMLButtonElement>('#signup-button')!.textContent = name; document.querySelector<HTMLButtonElement>('#login-button')!.textContent = 'Profile' } catch { localStorage.removeItem('kaltv_user') } }
+const savedUser = localStorage.getItem('kaltv_user'); if (savedUser) { try { const name = JSON.parse(savedUser).name; document.querySelector<HTMLButtonElement>('#signup-button')!.textContent = name; document.querySelector<HTMLButtonElement>('#login-btn')!.textContent = 'Profile' } catch { localStorage.removeItem('kaltv_user') } }
 document.querySelector<HTMLButtonElement>('#create-reel')?.addEventListener('click', () => showToast('Reel creator is ready for your next moment 🎬'))
 document.querySelectorAll<HTMLButtonElement>('[data-call]').forEach(button => button.addEventListener('click', () => showToast(`${button.dataset.call === 'video' ? 'Video chat' : 'Voice call'} invite sent ✨`)))
 document.querySelectorAll<HTMLButtonElement>('[data-chat]').forEach(button => button.addEventListener('click', () => showToast(`Opening chat with ${button.dataset.chat}`)))
@@ -431,6 +419,29 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   .chat-modal{height:100%;min-height:100vh;max-height:none;margin-left:auto;border-radius:12px 0 0 12px}
   @media(max-width:760px){.chat-backdrop{padding:0}.chat-modal{width:100%;border-radius:0}}
 </style>`)
+
+function initHamburger() {
+  const btn = document.getElementById('hamburger-btn') as HTMLButtonElement
+  const menu = document.getElementById('mobile-menu') as HTMLElement
+  const backdrop = document.getElementById('mobile-backdrop') as HTMLElement
+  if (!btn || !menu) return
+  btn.style.pointerEvents = 'auto'
+  btn.style.zIndex = '99999'
+  btn.style.cursor = 'pointer'
+  menu.classList.add('hidden')
+  menu.setAttribute('hidden', '')
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation()
+    console.log('HAMBURGER CLICKED - OPENING MENU')
+    const isHidden = menu.hasAttribute('hidden')
+    if (isHidden) { menu.classList.remove('hidden'); menu.classList.add('flex'); menu.removeAttribute('hidden'); backdrop?.removeAttribute('hidden'); menu.style.display = 'flex' }
+    else { menu.classList.add('hidden'); menu.classList.remove('flex'); menu.setAttribute('hidden', ''); backdrop?.setAttribute('hidden', ''); menu.style.display = 'none' }
+    btn.setAttribute('aria-expanded', String(isHidden))
+  })
+  backdrop?.addEventListener('click', () => { menu.classList.add('hidden'); menu.classList.remove('flex'); menu.setAttribute('hidden', ''); backdrop.setAttribute('hidden', ''); menu.style.display = 'none'; btn.setAttribute('aria-expanded', 'false') })
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hasAttribute('hidden')) { menu.classList.add('hidden'); menu.classList.remove('flex'); menu.setAttribute('hidden', ''); backdrop?.setAttribute('hidden', ''); menu.style.display = 'none'; btn.setAttribute('aria-expanded', 'false') } })
+}
+setTimeout(initHamburger, 500)
 
 document.head.insertAdjacentHTML('beforeend', `<style>
   .chat-media-button{display:grid;place-items:center;width:38px;flex:0 0 38px;border:1px solid #3a3d35;background:#282b24;color:#c8f169;border-radius:6px;font-size:20px;line-height:1;cursor:pointer}
