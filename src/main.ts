@@ -257,7 +257,8 @@ const liveVideoStage = document.createElement('div')
 liveVideoStage.className = 'live-video-stage'
 livePreview.parentElement?.insertBefore(liveVideoStage, livePreview)
 liveVideoStage.append(livePreview, guestPreview)
-const guestInvitePanel = document.querySelector<HTMLElement>('#guest-invite-panel')!
+document.querySelector('#guest-invite-panel')?.setAttribute('id', 'invite-panel')
+const guestInvitePanel = document.querySelector<HTMLElement>('#invite-panel')!
 const guestName = document.querySelector<HTMLInputElement>('#guest-name')!
 const cancelGuestInvite = document.querySelector<HTMLButtonElement>('#cancel-guest-invite')!
 const confirmGuestInvite = document.querySelector<HTMLButtonElement>('#confirm-guest-invite')!
@@ -624,15 +625,15 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   .live-modal.live-active video{height:calc(100vh - 255px);aspect-ratio:auto}
   .live-video-stage{display:grid;grid-template-columns:1fr;gap:10px;width:100%;flex:1;min-height:0}
   .live-video-stage.has-guest{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .live-video-stage video{width:100%;height:70vh;min-height:500px;aspect-ratio:auto;object-fit:cover;border-radius:12px;background:#000;flex:1}
-  .live-modal.live-active .live-video-stage video{height:70vh;min-height:500px;aspect-ratio:auto}
+  .live-video-stage video{width:100%;height:75vh;min-height:500px;aspect-ratio:auto;object-fit:cover;border-radius:12px;background:#000;flex:1}
+  .live-modal.live-active .live-video-stage video{height:75vh;min-height:500px;aspect-ratio:auto}
   .live-video-stage .guest-preview{border:2px solid #c8f169;box-shadow:0 8px 25px #0009}
-  .guest-invite-panel{position:fixed;z-index:99;right:8px;bottom:80px;top:auto;left:auto;transform:none;width:180px;max-width:180px;max-height:48px;overflow:hidden;padding:6px;background:#1e1e1e;border:1px solid #333;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .guest-invite-panel{position:fixed;z-index:100;right:12px;bottom:20px;top:auto;left:auto;transform:none;width:210px;max-width:210px;max-height:60px;overflow:hidden;padding:8px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;box-shadow:none}
   .guest-invite-panel #guest-invite-close{position:absolute;top:4px;right:6px;background:none;border:0;color:#fff;font-size:14px;line-height:14px;cursor:pointer}
   .guest-invite-panel[hidden]{display:none}
-  .guest-invite-panel h3{font:700 9px 'Manrope';margin:0 0 2px;color:#888}
+  .guest-invite-panel h3{font:700 10px 'Manrope';margin:0 0 4px;color:#666}
   .guest-invite-panel p{display:none}
-  .guest-invite-panel input{width:100%;border:0;background:#2a2a2a;color:#aaa;border-radius:4px;padding:3px 5px;font-size:8px;outline:0;margin-bottom:2px}
+  .guest-invite-panel input{width:100%;border:0;background:#222;color:#aaa;border-radius:4px;padding:4px;font-size:9px;outline:0;margin-bottom:4px}
   .guest-invite-panel input:focus{border-color:#c8f169}
   .guest-invite-panel>div:last-child{display:flex;justify-content:flex-end;gap:8px}
   .guest-invite-panel>div:last-child{gap:3px}.guest-invite-panel>div:last-child button{padding:3px 5px;font-size:8px}
@@ -664,11 +665,11 @@ document.head.insertAdjacentHTML('beforeend', `<style>
     .live-modal{width:100%;max-height:calc(100vh - 40px);padding-right:20px}
     .live-backdrop:has(.live-modal.live-active){padding:0}
     .live-modal.live-active{width:100%;height:auto;min-height:100vh;padding:20px;border-radius:0}
-    .live-modal.live-active video{height:70vh;min-height:360px;width:100%;aspect-ratio:auto}
+    .live-modal.live-active video{height:75vh;min-height:360px;width:100%;aspect-ratio:auto}
     .live-video-stage.has-guest{grid-template-columns:1fr}
     .live-room,.live-modal.live-active .live-room{position:static;width:auto;max-height:none;overflow:visible;margin-top:18px}
     .live-room .live-chat{height:130px;max-height:none}
-    .guest-invite-panel{width:180px;max-width:180px;right:8px;bottom:80px;max-height:48px}
+    .guest-invite-panel{width:210px;max-width:210px;right:12px;bottom:20px;max-height:60px}
   }
 </style>`)
 document.head.insertAdjacentHTML('beforeend', `<style>
