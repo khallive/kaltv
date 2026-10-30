@@ -111,7 +111,18 @@ document.querySelector('#go-live-button')?.setAttribute('id', 'go-live-header-bt
 document.querySelector('#mobile-nav-backdrop')?.setAttribute('id', 'mobile-backdrop')
 const goLiveCta = document.querySelector<HTMLButtonElement>('#big-go-live')
 const welcomeActions = document.querySelector<HTMLElement>('.welcome-actions')
-if (goLiveCta && welcomeActions) welcomeActions.after(goLiveCta)
+if (goLiveCta && welcomeActions) {
+  const goLiveBottom = document.createElement('section')
+  goLiveBottom.id = 'go-live-bottom'
+  goLiveBottom.style.cssText = 'padding:32px 16px 48px 16px;'
+  goLiveCta.style.cssText = 'width:100%;max-width:100%;background:#eaff00;color:#000;height:88px;font-size:26px;font-weight:900;border-radius:18px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 20px rgba(234,255,0,0.6),0 0 40px rgba(234,255,0,0.3),0 0 60px rgba(234,255,0,0.1);animation:glowPulse 2s infinite;letter-spacing:-0.5px;'
+  goLiveCta.innerHTML = 'Go Live Now 🎥'
+  const helper = document.createElement('p')
+  helper.textContent = 'Start streaming to your people'
+  helper.style.cssText = 'text-align:center;color:#888;font-size:14px;margin-top:12px;'
+  goLiveBottom.append(goLiveCta, helper)
+  welcomeActions.after(goLiveBottom)
+}
 
 const grid = document.querySelector<HTMLDivElement>('#stream-grid')!
 let activeFilter = 'All'
