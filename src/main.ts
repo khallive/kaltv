@@ -261,6 +261,8 @@ const guestInvitePanel = document.querySelector<HTMLElement>('#guest-invite-pane
 const guestName = document.querySelector<HTMLInputElement>('#guest-name')!
 const cancelGuestInvite = document.querySelector<HTMLButtonElement>('#cancel-guest-invite')!
 const confirmGuestInvite = document.querySelector<HTMLButtonElement>('#confirm-guest-invite')!
+guestInvitePanel.insertAdjacentHTML('afterbegin', '<button type="button" id="guest-invite-close" aria-label="Close invite">×</button>')
+document.querySelector<HTMLButtonElement>('#guest-invite-close')?.addEventListener('click', () => { guestInvitePanel.hidden = true })
 const guestAcceptedPanel = document.querySelector<HTMLElement>('#guest-accepted-panel')!
 const guestAcceptedName = document.querySelector<HTMLElement>('#guest-accepted-name')!
 const removeGuest = document.querySelector<HTMLButtonElement>('#remove-guest')!
@@ -620,16 +622,17 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   .live-backdrop:has(.live-modal.live-active){padding:0}
   .live-modal.live-active{width:100%;height:100%;max-width:none;max-height:none;border-radius:0;padding:32px 340px 32px 32px}
   .live-modal.live-active video{height:calc(100vh - 255px);aspect-ratio:auto}
-  .live-video-stage{display:grid;grid-template-columns:1fr;gap:10px;width:100%}
+  .live-video-stage{display:grid;grid-template-columns:1fr;gap:10px;width:100%;flex:1;min-height:0}
   .live-video-stage.has-guest{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .live-video-stage video{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#151714}
-  .live-modal.live-active .live-video-stage video{height:auto;aspect-ratio:16/9}
+  .live-video-stage video{width:100%;height:75vh;min-height:500px;aspect-ratio:auto;object-fit:cover;border-radius:12px;background:#000;flex:1}
+  .live-modal.live-active .live-video-stage video{height:75vh;min-height:500px;aspect-ratio:auto}
   .live-video-stage .guest-preview{border:2px solid #c8f169;box-shadow:0 8px 25px #0009}
-  .guest-invite-panel{position:absolute;z-index:8;top:50%;left:50%;transform:translate(-50%,-50%);width:min(300px,calc(100% - 40px));padding:16px;background:#20231d;border:1px solid #596541;border-radius:12px;box-shadow:0 12px 35px #000b}
+  .guest-invite-panel{position:fixed;z-index:50;right:16px;bottom:16px;top:auto;left:auto;transform:none;width:300px;max-width:90vw;max-height:90px;overflow:hidden;padding:12px;background:#1a1a1a;border:1px solid #333;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+  .guest-invite-panel #guest-invite-close{position:absolute;top:5px;right:8px;background:none;border:0;color:#888;font-size:18px;line-height:18px;cursor:pointer}
   .guest-invite-panel[hidden]{display:none}
-  .guest-invite-panel h3{font:700 20px 'Manrope';margin:10px 0 7px}
-  .guest-invite-panel p{color:#aeb3a5;font-size:10px;line-height:1.5;margin:0 0 15px}
-  .guest-invite-panel input{width:100%;border:1px solid #414833;background:#11130f;color:#f3f4ed;border-radius:6px;padding:11px;font-size:11px;outline:0;margin-bottom:13px}
+  .guest-invite-panel h3{font:700 13px 'Manrope';margin:0 0 8px}
+  .guest-invite-panel p{color:#aeb3a5;font-size:9px;line-height:1.3;margin:0 0 8px}
+  .guest-invite-panel input{width:100%;border:1px solid #414833;background:#2a2a2a;color:#aaa;border-radius:6px;padding:6px 8px;font-size:11px;outline:0;margin-bottom:8px}
   .guest-invite-panel input:focus{border-color:#c8f169}
   .guest-invite-panel>div:last-child{display:flex;justify-content:flex-end;gap:8px}
   .game-setup{display:flex;align-items:end;gap:9px;flex-wrap:wrap;margin:12px 0;padding:12px;background:#171b14;border:1px solid #303b28;border-radius:8px}
@@ -660,10 +663,11 @@ document.head.insertAdjacentHTML('beforeend', `<style>
     .live-modal{width:100%;max-height:calc(100vh - 40px);padding-right:20px}
     .live-backdrop:has(.live-modal.live-active){padding:0}
     .live-modal.live-active{width:100%;height:auto;min-height:100vh;padding:20px;border-radius:0}
-    .live-modal.live-active video{height:auto;aspect-ratio:16/9}
+    .live-modal.live-active video{height:60vh;min-height:360px;width:100%;aspect-ratio:auto}
     .live-video-stage.has-guest{grid-template-columns:1fr}
     .live-room,.live-modal.live-active .live-room{position:static;width:auto;max-height:none;overflow:visible;margin-top:18px}
     .live-room .live-chat{height:130px;max-height:none}
+    .guest-invite-panel{width:280px;right:8px;bottom:70px;max-height:90px}
   }
 </style>`)
 document.head.insertAdjacentHTML('beforeend', `<style>
