@@ -624,15 +624,15 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   .live-modal.live-active video{height:calc(100vh - 255px);aspect-ratio:auto}
   .live-video-stage{display:grid;grid-template-columns:1fr;gap:10px;width:100%;flex:1;min-height:0}
   .live-video-stage.has-guest{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .live-video-stage video{width:100%;height:75vh;min-height:500px;aspect-ratio:auto;object-fit:cover;border-radius:12px;background:#000;flex:1}
-  .live-modal.live-active .live-video-stage video{height:75vh;min-height:500px;aspect-ratio:auto}
+  .live-video-stage video{width:100%;height:70vh;min-height:500px;aspect-ratio:auto;object-fit:cover;border-radius:12px;background:#000;flex:1}
+  .live-modal.live-active .live-video-stage video{height:70vh;min-height:500px;aspect-ratio:auto}
   .live-video-stage .guest-preview{border:2px solid #c8f169;box-shadow:0 8px 25px #0009}
-  .guest-invite-panel{position:fixed;z-index:50;right:16px;bottom:16px;top:auto;left:auto;transform:none;width:300px;max-width:90vw;max-height:90px;overflow:hidden;padding:12px;background:#1a1a1a;border:1px solid #333;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.5)}
-  .guest-invite-panel #guest-invite-close{position:absolute;top:5px;right:8px;background:none;border:0;color:#888;font-size:18px;line-height:18px;cursor:pointer}
+  .guest-invite-panel{position:fixed;z-index:99;right:12px;bottom:80px;top:auto;left:auto;transform:none;width:220px;max-width:220px;max-height:58px;overflow:hidden;padding:8px;background:#1e1e1e;border:1px solid #333;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .guest-invite-panel #guest-invite-close{position:absolute;top:4px;right:6px;background:none;border:0;color:#fff;font-size:14px;line-height:14px;cursor:pointer}
   .guest-invite-panel[hidden]{display:none}
-  .guest-invite-panel h3{font:700 13px 'Manrope';margin:0 0 8px}
-  .guest-invite-panel p{color:#aeb3a5;font-size:9px;line-height:1.3;margin:0 0 8px}
-  .guest-invite-panel input{width:100%;border:1px solid #414833;background:#2a2a2a;color:#aaa;border-radius:6px;padding:6px 8px;font-size:11px;outline:0;margin-bottom:8px}
+  .guest-invite-panel h3{font:700 11px 'Manrope';margin:0 0 4px;color:#888}
+  .guest-invite-panel p{display:none}
+  .guest-invite-panel input{width:100%;border:0;background:#2a2a2a;color:#aaa;border-radius:4px;padding:4px 6px;font-size:10px;outline:0;margin-bottom:4px}
   .guest-invite-panel input:focus{border-color:#c8f169}
   .guest-invite-panel>div:last-child{display:flex;justify-content:flex-end;gap:8px}
   .game-setup{display:flex;align-items:end;gap:9px;flex-wrap:wrap;margin:12px 0;padding:12px;background:#171b14;border:1px solid #303b28;border-radius:8px}
@@ -663,11 +663,11 @@ document.head.insertAdjacentHTML('beforeend', `<style>
     .live-modal{width:100%;max-height:calc(100vh - 40px);padding-right:20px}
     .live-backdrop:has(.live-modal.live-active){padding:0}
     .live-modal.live-active{width:100%;height:auto;min-height:100vh;padding:20px;border-radius:0}
-    .live-modal.live-active video{height:60vh;min-height:360px;width:100%;aspect-ratio:auto}
+    .live-modal.live-active video{height:70vh;min-height:360px;width:100%;aspect-ratio:auto}
     .live-video-stage.has-guest{grid-template-columns:1fr}
     .live-room,.live-modal.live-active .live-room{position:static;width:auto;max-height:none;overflow:visible;margin-top:18px}
     .live-room .live-chat{height:130px;max-height:none}
-    .guest-invite-panel{width:280px;right:8px;bottom:70px;max-height:90px}
+    .guest-invite-panel{width:220px;max-width:220px;right:12px;bottom:80px;max-height:58px}
   }
 </style>`)
 document.head.insertAdjacentHTML('beforeend', `<style>
