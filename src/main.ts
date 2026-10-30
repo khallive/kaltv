@@ -153,31 +153,45 @@ document.querySelectorAll<HTMLButtonElement>('.filter').forEach(button => button
 document.querySelectorAll<HTMLButtonElement>('.category-card').forEach(button => button.addEventListener('click', () => { search.value = button.dataset.category ?? ''; activeFilter = 'All'; document.querySelector('.filter.active')?.classList.remove('active'); document.querySelector('.filter[data-filter="All"]')?.classList.add('active'); renderStreams(); document.querySelector('#live')?.scrollIntoView({ behavior: 'smooth' }) }))
 document.querySelector<HTMLButtonElement>('#load-more')!.addEventListener('click', event => { expanded = !expanded; (event.currentTarget as HTMLButtonElement).innerHTML = expanded ? 'Show fewer streams <span>↑</span>' : 'Show me more streams <span>↓</span>'; renderStreams() })
 document.querySelector<HTMLButtonElement>('.mobile-search')!.addEventListener('click', () => { search.focus(); search.scrollIntoView({ behavior: 'smooth', block: 'center' }) })
-const mobileMenu = document.querySelector<HTMLButtonElement>('#hamburger-btn')!
-const mobileNav = document.querySelector<HTMLElement>('#mobile-menu')!
+const hamburgerBtn = document.getElementById('hamburger-btn') as HTMLButtonElement
+const mobileMenu = document.getElementById('mobile-menu') as HTMLElement
 const mobileNavBackdrop = document.querySelector<HTMLElement>('#mobile-nav-backdrop')!
 const mobileNavClose = document.querySelector<HTMLButtonElement>('#mobile-nav-close')!
 const mobileGoLive = document.querySelector<HTMLButtonElement>('#mobile-go-live')!
 const mobileSettings = document.querySelector<HTMLButtonElement>('#mobile-settings')!
 function setMobileNav(open: boolean) {
-  mobileNav.hidden = !open
-  mobileNav.classList.toggle('open', open)
+  mobileMenu.hidden = !open
+  mobileMenu.classList.toggle('hidden', !open)
+  mobileMenu.classList.toggle('flex', open)
+  mobileMenu.style.display = open ? 'flex' : 'none'
+  mobileMenu.classList.toggle('open', open)
   mobileNavBackdrop.hidden = !open
-  mobileMenu.setAttribute('aria-expanded', String(open))
-  mobileMenu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation')
+  hamburgerBtn.setAttribute('aria-expanded', String(open))
+  hamburgerBtn.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation')
   document.body.classList.toggle('nav-open', open)
   if (open) mobileNavClose.focus()
 }
-mobileMenu.addEventListener('click', () => {
-  console.log('hamburger clicked')
-  setMobileNav(mobileNav.hidden)
-})
+mobileMenu.classList.add('hidden')
+if (hamburgerBtn && mobileMenu) {
+  hamburgerBtn.style.pointerEvents = 'auto'
+  hamburgerBtn.style.zIndex = '9999'
+  hamburgerBtn.style.cursor = 'pointer'
+  hamburgerBtn.addEventListener('click', (e) => {
+    e.stopPropagation()
+    console.log('HAMBURGER CLICKED - OPENING MENU')
+    const open = mobileMenu.classList.contains('hidden')
+    mobileMenu.classList.toggle('hidden', !open)
+    mobileMenu.classList.toggle('flex', open)
+    mobileMenu.style.display = open ? 'flex' : 'none'
+    setMobileNav(open)
+  })
+}
 mobileNavClose.addEventListener('click', () => setMobileNav(false))
 mobileNavBackdrop.addEventListener('click', () => setMobileNav(false))
 mobileGoLive.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#go-live-button')!.click() })
 mobileSettings.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#settings-button')?.click() })
-mobileNav.querySelectorAll<HTMLAnchorElement>('a').forEach(link => link.addEventListener('click', () => setMobileNav(false)))
-document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileNav.hidden) setMobileNav(false) })
+mobileMenu.querySelectorAll<HTMLAnchorElement>('a').forEach(link => link.addEventListener('click', () => setMobileNav(false)))
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileMenu.hidden) setMobileNav(false) })
 document.querySelectorAll<HTMLAnchorElement>('.main-nav a').forEach(link => link.addEventListener('click', () => { document.querySelector('.main-nav a.active')?.classList.remove('active'); link.classList.add('active') }))
 const sectionNav = new IntersectionObserver(entries => entries.forEach(entry => { if (!entry.isIntersecting) return; const link = document.querySelector<HTMLAnchorElement>(`.main-nav a[href="#${entry.target.id}"]`); if (!link) return; document.querySelector('.main-nav a.active')?.classList.remove('active'); link.classList.add('active') }), { rootMargin: '-35% 0px -55% 0px' })
 document.querySelectorAll<HTMLElement>('#discover, #categories, #reels, #chat, #gifts, #music').forEach(section => sectionNav.observe(section))
