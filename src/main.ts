@@ -262,8 +262,17 @@ const guestInvitePanel = document.querySelector<HTMLElement>('#invite-panel')!
 const guestName = document.querySelector<HTMLInputElement>('#guest-name')!
 const cancelGuestInvite = document.querySelector<HTMLButtonElement>('#cancel-guest-invite')!
 const confirmGuestInvite = document.querySelector<HTMLButtonElement>('#confirm-guest-invite')!
+inviteGuest.id = 'invite-trigger'
+guestName.id = 'invite-link'
+guestInvitePanel.hidden = true
+guestInvitePanel.style.display = 'none'
+function showInvite() { guestInvitePanel.hidden = false; guestInvitePanel.style.display = 'block' }
+function hideInvite() { guestInvitePanel.hidden = true; guestInvitePanel.style.display = 'none' }
+function copyInvite() { navigator.clipboard?.writeText(guestName.value || 'https://kaltv-fn37.vercel.app/join/xxx'); showToast('Invite link copied') }
+Object.assign(window, { showInvite, hideInvite, copyInvite })
+window.addEventListener('load', () => { const panel = document.getElementById('invite-panel'); if (panel) { panel.hidden = true; panel.style.display = 'none' } })
 guestInvitePanel.insertAdjacentHTML('afterbegin', '<button type="button" id="guest-invite-close" aria-label="Close invite">×</button>')
-document.querySelector<HTMLButtonElement>('#guest-invite-close')?.addEventListener('click', () => { guestInvitePanel.hidden = true })
+document.querySelector<HTMLButtonElement>('#guest-invite-close')?.addEventListener('click', hideInvite)
 const guestAcceptedPanel = document.querySelector<HTMLElement>('#guest-accepted-panel')!
 const guestAcceptedName = document.querySelector<HTMLElement>('#guest-accepted-name')!
 const removeGuest = document.querySelector<HTMLButtonElement>('#remove-guest')!
@@ -501,7 +510,7 @@ document.querySelectorAll<HTMLElement>('.reel-card').forEach(reel => reel.addEve
 stopLive.addEventListener('click', stopGuestCamera)
 document.querySelector<HTMLButtonElement>('#live-close')!.addEventListener('click', stopGuestCamera)
 liveBackdrop.addEventListener('click', event => { if (event.target === liveBackdrop) stopGuestCamera() })
-inviteGuest.addEventListener('click', () => { guestInvitePanel.hidden = false; guestName.focus() })
+inviteGuest.addEventListener('click', () => { showInvite(); guestName.focus() })
 cancelGuestInvite.addEventListener('click', () => { guestInvitePanel.hidden = true })
 confirmGuestInvite.addEventListener('click', async () => {
   try {
