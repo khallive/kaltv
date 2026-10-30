@@ -83,10 +83,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <a class="brand" href="#home" aria-label="KalTV home"><span class="brand-mark">K</span><span>kal<span>tv</span></span></a>
   <nav class="main-nav"><a class="active" href="#discover">Discover</a><a href="#categories">Categories</a><a href="#reels">Reels</a><a href="#chat">Chat</a><a href="#gifts">Gifts</a><a href="#music">Music</a></nav>
   <label class="search-box">${icon('search')}<input id="search" placeholder="Search streams, games, creators…" autocomplete="off"><kbd>⌘ K</kbd></label>
-  <div class="top-actions"><button class="icon-button mobile-search" aria-label="Search">${icon('search')}</button><button class="icon-button" aria-label="Notifications">${icon('bell')}<i class="notification-dot"></i></button><button class="login" id="login-button">Log in</button><button class="stream-button" id="go-live-button">Go live <span>●</span></button><button class="signup" id="signup-button">Join KalTV <span>↗</span></button><button class="mobile-menu" aria-label="Open navigation" aria-expanded="false">${icon('menu')}</button></div>
+  <div class="top-actions"><button class="icon-button mobile-search" aria-label="Search">${icon('search')}</button><button class="icon-button" aria-label="Notifications">${icon('bell')}<i class="notification-dot"></i></button><button class="login" id="login-button">Log in</button><button class="stream-button" id="go-live-button">Go live <span>●</span></button><button class="signup" id="signup-button">Join KalTV <span>↗</span></button><button class="mobile-menu" id="hamburger-btn" aria-label="Open navigation" aria-expanded="false" type="button">${icon('menu')}</button></div>
 </header>
 <div class="mobile-nav-backdrop" id="mobile-nav-backdrop" hidden></div>
-<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden><div class="mobile-nav-head"><b>Explore KalTV</b><button class="icon-button" id="mobile-nav-close" aria-label="Close navigation">×</button></div><button class="mobile-nav-item mobile-nav-action" id="mobile-go-live" type="button">Go Live <span>●</span></button><a class="mobile-nav-item" href="#home">Dashboard</a><button class="mobile-nav-item mobile-nav-action" id="mobile-settings" type="button">Settings <span>⚙</span></button><div class="mobile-nav-divider"></div><a href="#discover">Discover</a><a href="#categories">Categories</a><a href="#reels">Reels</a><a href="#chat">Chat</a><a href="#gifts">Gifts</a><a href="#music">Music</a><div class="mobile-nav-divider"></div><a href="#live">Live now <span class="live-dot"></span></a></nav>
+<nav class="mobile-nav" id="mobile-menu" aria-label="Mobile navigation" hidden><div class="mobile-nav-head"><b>Explore KalTV</b><button class="icon-button" id="mobile-nav-close" aria-label="Close navigation" type="button">×</button></div><button class="mobile-nav-item mobile-nav-action" id="mobile-go-live" type="button">Go Live <span>●</span></button><a class="mobile-nav-item" href="#home">Dashboard</a><button class="mobile-nav-item mobile-nav-action" id="mobile-settings" type="button">Settings <span>⚙</span></button><div class="mobile-nav-divider"></div><a href="#discover">Discover</a><a href="#categories">Categories</a><a href="#reels">Reels</a><a href="#chat">Chat</a><a href="#gifts">Gifts</a><a href="#music">Music</a><div class="mobile-nav-divider"></div><a href="#live">Live now <span class="live-dot"></span></a></nav>
 <div class="app-shell">
   <aside class="sidebar"><div class="side-label">YOUR SPACE <button class="collapse" aria-label="Collapse sidebar">‹</button></div>
     <a class="side-link selected" href="#discover">${icon('home')}<span>Discover</span></a><a class="side-link" href="#live">${icon('heart')}<span>Following</span></a>
@@ -153,21 +153,25 @@ document.querySelectorAll<HTMLButtonElement>('.filter').forEach(button => button
 document.querySelectorAll<HTMLButtonElement>('.category-card').forEach(button => button.addEventListener('click', () => { search.value = button.dataset.category ?? ''; activeFilter = 'All'; document.querySelector('.filter.active')?.classList.remove('active'); document.querySelector('.filter[data-filter="All"]')?.classList.add('active'); renderStreams(); document.querySelector('#live')?.scrollIntoView({ behavior: 'smooth' }) }))
 document.querySelector<HTMLButtonElement>('#load-more')!.addEventListener('click', event => { expanded = !expanded; (event.currentTarget as HTMLButtonElement).innerHTML = expanded ? 'Show fewer streams <span>↑</span>' : 'Show me more streams <span>↓</span>'; renderStreams() })
 document.querySelector<HTMLButtonElement>('.mobile-search')!.addEventListener('click', () => { search.focus(); search.scrollIntoView({ behavior: 'smooth', block: 'center' }) })
-const mobileMenu = document.querySelector<HTMLButtonElement>('.mobile-menu')!
-const mobileNav = document.querySelector<HTMLElement>('#mobile-nav')!
+const mobileMenu = document.querySelector<HTMLButtonElement>('#hamburger-btn')!
+const mobileNav = document.querySelector<HTMLElement>('#mobile-menu')!
 const mobileNavBackdrop = document.querySelector<HTMLElement>('#mobile-nav-backdrop')!
 const mobileNavClose = document.querySelector<HTMLButtonElement>('#mobile-nav-close')!
 const mobileGoLive = document.querySelector<HTMLButtonElement>('#mobile-go-live')!
 const mobileSettings = document.querySelector<HTMLButtonElement>('#mobile-settings')!
 function setMobileNav(open: boolean) {
   mobileNav.hidden = !open
+  mobileNav.classList.toggle('open', open)
   mobileNavBackdrop.hidden = !open
   mobileMenu.setAttribute('aria-expanded', String(open))
   mobileMenu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation')
   document.body.classList.toggle('nav-open', open)
   if (open) mobileNavClose.focus()
 }
-mobileMenu.addEventListener('click', () => setMobileNav(!mobileNav.hidden))
+mobileMenu.addEventListener('click', () => {
+  console.log('hamburger clicked')
+  setMobileNav(mobileNav.hidden)
+})
 mobileNavClose.addEventListener('click', () => setMobileNav(false))
 mobileNavBackdrop.addEventListener('click', () => setMobileNav(false))
 mobileGoLive.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#go-live-button')!.click() })
