@@ -266,7 +266,7 @@ inviteGuest.id = 'invite-trigger'
 guestName.id = 'invite-link'
 guestInvitePanel.hidden = true
 guestInvitePanel.style.display = 'none'
-function showInvite() { guestInvitePanel.hidden = false; guestInvitePanel.style.display = 'block' }
+function showInvite() { guestName.value = `${window.location.href}/join/${Math.random().toString(36).substring(7)}`; guestInvitePanel.hidden = false; guestInvitePanel.style.display = 'block' }
 function hideInvite() { guestInvitePanel.hidden = true; guestInvitePanel.style.display = 'none' }
 function copyInvite() { navigator.clipboard?.writeText(guestName.value || 'https://kaltv-fn37.vercel.app/join/xxx'); showToast('Invite link copied') }
 Object.assign(window, { showInvite, hideInvite, copyInvite })
