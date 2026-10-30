@@ -627,14 +627,15 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   .live-video-stage video{width:100%;height:70vh;min-height:500px;aspect-ratio:auto;object-fit:cover;border-radius:12px;background:#000;flex:1}
   .live-modal.live-active .live-video-stage video{height:70vh;min-height:500px;aspect-ratio:auto}
   .live-video-stage .guest-preview{border:2px solid #c8f169;box-shadow:0 8px 25px #0009}
-  .guest-invite-panel{position:fixed;z-index:99;right:12px;bottom:80px;top:auto;left:auto;transform:none;width:220px;max-width:220px;max-height:58px;overflow:hidden;padding:8px;background:#1e1e1e;border:1px solid #333;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .guest-invite-panel{position:fixed;z-index:99;right:8px;bottom:80px;top:auto;left:auto;transform:none;width:180px;max-width:180px;max-height:48px;overflow:hidden;padding:6px;background:#1e1e1e;border:1px solid #333;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.3)}
   .guest-invite-panel #guest-invite-close{position:absolute;top:4px;right:6px;background:none;border:0;color:#fff;font-size:14px;line-height:14px;cursor:pointer}
   .guest-invite-panel[hidden]{display:none}
-  .guest-invite-panel h3{font:700 11px 'Manrope';margin:0 0 4px;color:#888}
+  .guest-invite-panel h3{font:700 9px 'Manrope';margin:0 0 2px;color:#888}
   .guest-invite-panel p{display:none}
-  .guest-invite-panel input{width:100%;border:0;background:#2a2a2a;color:#aaa;border-radius:4px;padding:4px 6px;font-size:10px;outline:0;margin-bottom:4px}
+  .guest-invite-panel input{width:100%;border:0;background:#2a2a2a;color:#aaa;border-radius:4px;padding:3px 5px;font-size:8px;outline:0;margin-bottom:2px}
   .guest-invite-panel input:focus{border-color:#c8f169}
   .guest-invite-panel>div:last-child{display:flex;justify-content:flex-end;gap:8px}
+  .guest-invite-panel>div:last-child{gap:3px}.guest-invite-panel>div:last-child button{padding:3px 5px;font-size:8px}
   .game-setup{display:flex;align-items:end;gap:9px;flex-wrap:wrap;margin:12px 0;padding:12px;background:#171b14;border:1px solid #303b28;border-radius:8px}
   .game-setup[hidden]{display:none}
   .game-setup label{display:grid;gap:6px;flex:1;min-width:190px;color:#b7baae;font-size:10px}
@@ -667,7 +668,7 @@ document.head.insertAdjacentHTML('beforeend', `<style>
     .live-video-stage.has-guest{grid-template-columns:1fr}
     .live-room,.live-modal.live-active .live-room{position:static;width:auto;max-height:none;overflow:visible;margin-top:18px}
     .live-room .live-chat{height:130px;max-height:none}
-    .guest-invite-panel{width:220px;max-width:220px;right:12px;bottom:80px;max-height:58px}
+    .guest-invite-panel{width:180px;max-width:180px;right:8px;bottom:80px;max-height:48px}
   }
 </style>`)
 document.head.insertAdjacentHTML('beforeend', `<style>
