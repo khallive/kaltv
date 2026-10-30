@@ -106,6 +106,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 </div>
 <div class="toast" role="status"></div><div class="auth-backdrop" id="auth-backdrop" hidden><form class="auth-modal" id="auth-form"><button class="auth-close" type="button" id="auth-close" aria-label="Close">×</button><div class="eyebrow">WELCOME TO KALTV</div><h2 id="auth-title">Join the community</h2><p id="auth-copy">Create your free profile to follow creators and join the conversation.</p><label>Display name<input id="auth-name" required placeholder="Your creator name"></label><label>Email<input id="auth-email" required type="email" placeholder="you@example.com"></label><label>Password<input id="auth-password" required type="password" minlength="6" placeholder="At least 6 characters"></label><button class="signup auth-submit" type="submit" id="auth-submit">Create account <span>↗</span></button><button class="auth-switch" type="button" id="auth-switch">Already have an account? Log in</button></form></div>`
 
+const goLiveCta = document.querySelector<HTMLButtonElement>('#main-go-live-button')
+const musicSection = document.querySelector<HTMLElement>('#music')
+if (goLiveCta && musicSection) musicSection.append(goLiveCta)
+
 const grid = document.querySelector<HTMLDivElement>('#stream-grid')!
 let activeFilter = 'All'
 let expanded = false
