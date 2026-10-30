@@ -110,8 +110,8 @@ document.querySelector('#login-button')?.setAttribute('id', 'login-btn')
 document.querySelector('#go-live-button')?.setAttribute('id', 'go-live-header-btn')
 document.querySelector('#mobile-nav-backdrop')?.setAttribute('id', 'mobile-backdrop')
 const goLiveCta = document.querySelector<HTMLButtonElement>('#big-go-live')
-const musicSection = document.querySelector<HTMLElement>('#music')
-if (goLiveCta && musicSection) musicSection.append(goLiveCta)
+const welcomeActions = document.querySelector<HTMLElement>('.welcome-actions')
+if (goLiveCta && welcomeActions) welcomeActions.after(goLiveCta)
 
 const grid = document.querySelector<HTMLDivElement>('#stream-grid')!
 let activeFilter = 'All'
