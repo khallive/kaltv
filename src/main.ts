@@ -107,21 +107,23 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 <div class="toast" role="status"></div><div class="auth-backdrop" id="auth-backdrop" hidden><form class="auth-modal" id="auth-form"><button class="auth-close" type="button" id="auth-close" aria-label="Close">×</button><div class="eyebrow">WELCOME TO KALTV</div><h2 id="auth-title">Join the community</h2><p id="auth-copy">Create your free profile to follow creators and join the conversation.</p><label>Display name<input id="auth-name" required placeholder="Your creator name"></label><label>Email<input id="auth-email" required type="email" placeholder="you@example.com"></label><label>Password<input id="auth-password" required type="password" minlength="6" placeholder="At least 6 characters"></label><button class="signup auth-submit" type="submit" id="auth-submit">Create account <span>↗</span></button><button class="auth-switch" type="button" id="auth-switch">Already have an account? Log in</button></form></div>`
 
 document.querySelector('#login-button')?.setAttribute('id', 'login-btn')
-document.querySelector('#go-live-button')?.setAttribute('id', 'go-live-header-btn')
+document.querySelector('#go-live-button')?.remove()
 document.querySelector('#mobile-nav-backdrop')?.setAttribute('id', 'mobile-backdrop')
+document.querySelector('#mobile-go-live')?.remove()
+document.querySelector('.sidebar-go-live')?.remove()
 const goLiveCta = document.querySelector<HTMLButtonElement>('#big-go-live')
 const musicSection = document.querySelector<HTMLElement>('#music')
 if (goLiveCta && musicSection) {
   const goLiveBottom = document.createElement('section')
   goLiveBottom.id = 'go-live-bottom'
-  goLiveBottom.style.cssText = 'padding:12px 0 0;'
-  goLiveCta.style.cssText = 'width:max-content;max-width:100%;background:#c8f169;color:#191b14;height:auto;font-size:11px;font-weight:700;border-radius:7px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 14px;box-shadow:none;animation:none;letter-spacing:0;'
+  goLiveBottom.style.cssText = 'padding:24px 16px 60px 16px;margin-top:16px;'
+  goLiveCta.style.cssText = 'width:100%;background:#eaff00;color:#000;height:88px;font-size:26px;font-weight:900;border-radius:18px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 25px rgba(234,255,0,0.6);'
   goLiveCta.innerHTML = 'Go Live Now 🎥'
   const helper = document.createElement('p')
   helper.textContent = 'Start streaming to your people'
-  helper.style.cssText = 'text-align:left;color:#888;font-size:10px;margin:7px 0 0;'
+  helper.style.cssText = 'text-align:center;color:#888;margin-top:10px;'
   goLiveBottom.append(goLiveCta, helper)
-  musicSection.append(goLiveBottom)
+  document.querySelector<HTMLElement>('main.content')?.append(goLiveBottom)
 }
 
 const grid = document.querySelector<HTMLDivElement>('#stream-grid')!
@@ -175,7 +177,7 @@ const hamburgerBtn = document.getElementById('hamburger-btn') as HTMLButtonEleme
 const mobileMenu = document.getElementById('mobile-menu') as HTMLElement
 const mobileNavBackdrop = document.getElementById('mobile-backdrop') as HTMLElement
 const mobileNavClose = document.querySelector<HTMLButtonElement>('#mobile-nav-close')!
-const mobileGoLive = document.querySelector<HTMLButtonElement>('#mobile-go-live')!
+const mobileGoLive = document.querySelector<HTMLButtonElement>('#mobile-go-live')
 const mobileSettings = document.querySelector<HTMLButtonElement>('#mobile-settings')!
 function setMobileNav(open: boolean) {
   mobileMenu.hidden = !open
@@ -191,7 +193,7 @@ function setMobileNav(open: boolean) {
 }
 mobileNavClose.addEventListener('click', () => setMobileNav(false))
 mobileNavBackdrop.addEventListener('click', () => setMobileNav(false))
-mobileGoLive.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#go-live-header-btn')!.click() })
+mobileGoLive?.addEventListener('click', () => { setMobileNav(false); goLiveCta?.click() })
 mobileSettings.addEventListener('click', () => { setMobileNav(false); document.querySelector<HTMLButtonElement>('#settings-button')?.click() })
 mobileMenu.querySelectorAll<HTMLAnchorElement>('a').forEach(link => link.addEventListener('click', () => setMobileNav(false)))
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && !mobileMenu.hidden) setMobileNav(false) })
@@ -288,8 +290,8 @@ const liveLike = document.querySelector<HTMLButtonElement>('#live-like')!
 let liveLikes = 0
 function stopLivePreview() { liveStream?.getTracks().forEach(track => track.stop()); screenStream?.getTracks().forEach(track => track.stop()); liveStream = null; screenStream = null; livePreview.srcObject = null; shareScreen.textContent = 'Share desktop screen'; stopLive.hidden = true; checkMedia.disabled = false }
 function resetLiveRoom() { liveRoom.hidden = true; liveLikes = 0; liveLike.innerHTML = '♡ <span>0</span>'; liveChat.innerHTML = '<div class="live-chat-message"><b>KalTV</b><span>Welcome to the stream chat ✨</span></div>'; startLive.hidden = false; stopLive.hidden = true }
-document.querySelector<HTMLButtonElement>('#go-live-header-btn')!.addEventListener('click', () => { liveBackdrop.hidden = false; liveModal.classList.remove('live-active'); resetLiveRoom(); liveStatus.textContent = 'Ready to check your camera and microphone.' })
-document.querySelectorAll<HTMLButtonElement>('.go-live-trigger').forEach(button => button.addEventListener('click', () => document.querySelector<HTMLButtonElement>('#go-live-header-btn')!.click()))
+goLiveCta?.addEventListener('click', () => { liveBackdrop.hidden = false; liveModal.classList.remove('live-active'); resetLiveRoom(); liveStatus.textContent = 'Ready to check your camera and microphone.' })
+document.querySelectorAll<HTMLButtonElement>('.go-live-trigger').forEach(button => button.addEventListener('click', () => goLiveCta?.click()))
 document.querySelector<HTMLButtonElement>('#live-close')!.addEventListener('click', () => { liveBackdrop.hidden = true; stopLivePreview() })
 liveBackdrop.addEventListener('click', event => { if (event.target === liveBackdrop) { liveBackdrop.hidden = true; stopLivePreview() } })
 audioOnly.addEventListener('change', () => { livePreview.hidden = audioOnly.checked; checkMedia.textContent = audioOnly.checked ? 'Check microphone' : 'Check camera & mic' })
