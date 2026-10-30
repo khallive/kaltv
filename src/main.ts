@@ -110,8 +110,8 @@ document.querySelector('#login-button')?.setAttribute('id', 'login-btn')
 document.querySelector('#go-live-button')?.setAttribute('id', 'go-live-header-btn')
 document.querySelector('#mobile-nav-backdrop')?.setAttribute('id', 'mobile-backdrop')
 const goLiveCta = document.querySelector<HTMLButtonElement>('#big-go-live')
-const welcomeActions = document.querySelector<HTMLElement>('.welcome-actions')
-if (goLiveCta && welcomeActions) {
+const musicSection = document.querySelector<HTMLElement>('#music')
+if (goLiveCta && musicSection) {
   const goLiveBottom = document.createElement('section')
   goLiveBottom.id = 'go-live-bottom'
   goLiveBottom.style.cssText = 'padding:12px 0 0;'
@@ -121,7 +121,7 @@ if (goLiveCta && welcomeActions) {
   helper.textContent = 'Start streaming to your people'
   helper.style.cssText = 'text-align:left;color:#888;font-size:10px;margin:7px 0 0;'
   goLiveBottom.append(goLiveCta, helper)
-  welcomeActions.after(goLiveBottom)
+  musicSection.append(goLiveBottom)
 }
 
 const grid = document.querySelector<HTMLDivElement>('#stream-grid')!
