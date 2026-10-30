@@ -299,7 +299,7 @@ const liveChatInput = document.querySelector<HTMLInputElement>('#live-chat-input
 const liveLike = document.querySelector<HTMLButtonElement>('#live-like')!
 let liveLikes = 0
 function stopLivePreview() { liveStream?.getTracks().forEach(track => track.stop()); screenStream?.getTracks().forEach(track => track.stop()); liveStream = null; screenStream = null; livePreview.srcObject = null; shareScreen.textContent = 'Share desktop screen'; stopLive.hidden = true; checkMedia.disabled = false }
-function resetLiveRoom() { liveRoom.hidden = true; liveLikes = 0; liveLike.innerHTML = '♡ <span>0</span>'; liveChat.innerHTML = '<div class="live-chat-message"><b>KalTV</b><span>Welcome to the stream chat ✨</span></div>'; startLive.hidden = false; stopLive.hidden = true }
+function resetLiveRoom() { liveRoom.hidden = true; hideInvite(); liveLikes = 0; liveLike.innerHTML = '♡ <span>0</span>'; liveChat.innerHTML = '<div class="live-chat-message"><b>KalTV</b><span>Welcome to the stream chat ✨</span></div>'; startLive.hidden = false; stopLive.hidden = true }
 goLiveCta?.addEventListener('click', () => { liveBackdrop.hidden = false; liveModal.classList.remove('live-active'); resetLiveRoom(); liveStatus.textContent = 'Ready to check your camera and microphone.' })
 document.querySelectorAll<HTMLButtonElement>('.go-live-trigger').forEach(button => button.addEventListener('click', () => goLiveCta?.click()))
 document.querySelector<HTMLButtonElement>('#live-close')!.addEventListener('click', () => { liveBackdrop.hidden = true; stopLivePreview() })
@@ -480,7 +480,7 @@ function stopGuestCamera() {
   guestPreview.srcObject = null
   guestPreview.hidden = true
   liveVideoStage.classList.remove('has-guest')
-  guestInvitePanel.hidden = true
+  hideInvite()
   guestAcceptedPanel.hidden = true
   inviteGuest.hidden = true
   shareLive.hidden = true
@@ -511,7 +511,7 @@ stopLive.addEventListener('click', stopGuestCamera)
 document.querySelector<HTMLButtonElement>('#live-close')!.addEventListener('click', stopGuestCamera)
 liveBackdrop.addEventListener('click', event => { if (event.target === liveBackdrop) stopGuestCamera() })
 inviteGuest.addEventListener('click', () => { showInvite(); guestName.focus() })
-cancelGuestInvite.addEventListener('click', () => { guestInvitePanel.hidden = true })
+cancelGuestInvite.addEventListener('click', hideInvite)
 confirmGuestInvite.addEventListener('click', async () => {
   try {
     guestStream?.getTracks().forEach(track => track.stop())
