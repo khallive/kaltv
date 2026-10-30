@@ -112,14 +112,14 @@ document.querySelector('#mobile-nav-backdrop')?.setAttribute('id', 'mobile-backd
 document.querySelector('#mobile-go-live')?.remove()
 document.querySelector('.sidebar-go-live')?.remove()
 const goLiveCta = document.querySelector<HTMLButtonElement>('#big-go-live, #small-go-live')
-goLiveCta?.setAttribute('id', 'small-go-live')
+goLiveCta?.setAttribute('id', 'big-go-live')
 const musicSection = document.querySelector<HTMLElement>('#music')
 if (goLiveCta && musicSection) {
   const goLiveBottom = document.createElement('section')
   goLiveBottom.id = 'go-live-bottom'
   goLiveBottom.style.cssText = 'padding:16px;display:flex;justify-content:center;'
-  goLiveCta.style.cssText = 'background:#eaff00;color:#000;height:36px;padding:0 20px;font-size:14px;font-weight:700;border-radius:20px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;'
-  goLiveCta.innerHTML = '🎥 Go Live'
+  goLiveCta.style.cssText = 'width:100%;background:#eaff00;color:#000;height:88px;padding:0 20px;font-size:26px;font-weight:900;border-radius:18px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 0 25px rgba(234,255,0,0.6);'
+  goLiveCta.innerHTML = 'Go Live Now 🎥'
   goLiveBottom.append(goLiveCta)
   document.querySelector<HTMLElement>('main.content')?.append(goLiveBottom)
 }
@@ -615,7 +615,7 @@ renderStreams()
 // Keep the live stream chat beside the preview instead of pushing it below the stream.
 document.head.insertAdjacentHTML('beforeend', `<style>
   .live-backdrop{overflow:auto}
-  .live-modal{width:min(900px,calc(100vw - 40px));max-height:calc(100vh - 40px);overflow-y:auto;padding-right:27px}
+  .live-modal{width:min(560px,calc(100vw - 40px));max-height:calc(100vh - 40px);overflow-y:auto;padding:20px}
   .live-modal.live-active{padding-right:340px}
   .live-backdrop:has(.live-modal.live-active){padding:0}
   .live-modal.live-active{width:100%;height:100%;max-width:none;max-height:none;border-radius:0;padding:32px 340px 32px 32px}
@@ -625,7 +625,7 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   .live-video-stage video{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#151714}
   .live-modal.live-active .live-video-stage video{height:auto;aspect-ratio:16/9}
   .live-video-stage .guest-preview{border:2px solid #c8f169;box-shadow:0 8px 25px #0009}
-  .guest-invite-panel{position:absolute;z-index:8;top:50%;left:50%;transform:translate(-50%,-50%);width:min(360px,calc(100% - 40px));padding:22px;background:#20231d;border:1px solid #596541;border-radius:12px;box-shadow:0 20px 70px #000b}
+  .guest-invite-panel{position:absolute;z-index:8;top:50%;left:50%;transform:translate(-50%,-50%);width:min(300px,calc(100% - 40px));padding:16px;background:#20231d;border:1px solid #596541;border-radius:12px;box-shadow:0 12px 35px #000b}
   .guest-invite-panel[hidden]{display:none}
   .guest-invite-panel h3{font:700 20px 'Manrope';margin:10px 0 7px}
   .guest-invite-panel p{color:#aeb3a5;font-size:10px;line-height:1.5;margin:0 0 15px}
